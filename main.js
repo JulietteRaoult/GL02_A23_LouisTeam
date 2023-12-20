@@ -509,6 +509,7 @@ function spec8() {
             let tableauSallesAvecCapacites = new Array();
             tableauSalles.forEach(c => tableauSallesAvecCapacites.push(new objetSalle(c, infoCapaciteMaximumSalle(c, analyzer.listeCreneaux))))
             tableauSallesAvecCapacites.sort((a, b) => a.capMax - b.capMax);
+            tableauSallesAvecCapacites.reverse();
             console.log("Voici le classement des salles par ordre de capacité maximale croissante :");
             tableauSallesAvecCapacites.forEach(c => console.log(c.nom + " capacité maximale : " + c.capMax));
         } else {
