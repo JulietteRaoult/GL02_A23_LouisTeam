@@ -2,6 +2,7 @@
 Projet de GL02, Logiciel utilitaire en ligne de commande pour la gestion des salles de cours
 Membre: Louis, Nassim, Mael, (Emma, Chengxian)
 
+
 Ce script JavaScript propose une interface en ligne de commande (CLI) permettant de gérer les salles de cours, leur capacité et leur disponibilité en fonction des créneaux horaires.
 
 Prérequis :
