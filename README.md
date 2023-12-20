@@ -346,3 +346,4 @@ Salles :
 
 Les tests:
 Ils jouent un rôle essentiel dans nos spécifications en détectant rapidement toute anomalie potentielle. Cruciaux pour vérifier l'existence des informations requises, repérer des problèmes dans le fichier ou des incohérences dans les données, ils prennent la forme d'instructions "if" à différents niveaux des spécifications. Ces tests nous aident à localiser les potentielles erreurs et à en comprendre leur nature.
+
