@@ -199,12 +199,26 @@ function spec3() {
     });
 }
 
-
+function convertirEnMinutes(heure) {
+    let [heures, minutes] = heure.split(':').map(Number);
+    return heures * 60 + minutes;
+}
 
 // Spec4, Disponibilité des salles sur un créneau
 function spec4() {
     rl.question('Entrez l\'heure de début (au format 8:00, 8:30, etc.) : ', (heureDebut) => {
         rl.question('Entrez l\'heure de fin (au format 8:00, 8:30, etc.) : ', (heureFin) => {
+            // Convertir les heures en minutes pour faciliter la comparaison
+            let debutMinutes = convertirEnMinutes(heureDebut);
+            let finMinutes = convertirEnMinutes(heureFin);
+
+            // Vérifier si l'heure de début est avant l'heure de fin
+            if (debutMinutes >= finMinutes) {
+                console.log("L'heure de début doit être avant l'heure de fin".red);
+                showMainMenu(); // Réafficher le menu
+                return;
+            }
+
             rl.question('Entrez le jour de la semaine (L, MA, ME, J, V, S) : ', (jour) => {
                 let joursSemaine = ["L", "MA", "ME", "J", "V", "S"];
 
@@ -233,7 +247,8 @@ function spec4() {
                                     let salleReservee = analyzer.reservations.some(r =>
                                         r.salle === s.salle &&
                                         r.jour === jour &&
-                                        ((r.heureDebut <= s.heureDebut && s.heureDebut < r.heureFin) || (r.heureDebut < s.heureFin && s.heureFin <= r.heureFin)));// N'inclure la salle que si elle n'est pas réservée
+                                        ((r.heureDebut <= s.heureDebut && s.heureDebut < r.heureFin) || (r.heureDebut < s.heureFin && s.heureFin <= r.heureFin)));
+                                    // N'inclure la salle que si elle n'est pas réservée
                                     if (!salleReservee) {
                                         console.log(s);
                                     }
