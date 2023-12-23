@@ -89,7 +89,9 @@ rl.question('Entrez le nom de la salle : ', (salle) => {
 
     if(analyseurFichier.errorCount === 0){
     let salleExistante = analyseurFichier.listeCreneaux;
-    if (salleExistante.filter(p => p.salle.match(salle)).length === 0){
+    let triSalle = salleExistante.filter(p => p.salle === salle)
+    triSalle.forEach(console.log);
+    if (triSalle.length === 0){
         console.log("Veuillez entrer un nom de salle valide.".red)
     } else {
         let capaciteMaxSalle = infoCapaciteMaximumSalle(salle, analyseurFichier.listeCreneaux);
