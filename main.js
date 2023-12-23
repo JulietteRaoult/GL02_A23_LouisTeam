@@ -358,12 +358,14 @@ function spec5() {
 
 // Spec6, Réserver une salle
 function spec6() {
+
     rl.question('Entrez le nom de la salle à réserver : ', (salle) => {
         rl.question('Entrez l\'heure de début de la réservation (HH:MM) : ', (heureDebut) => {
             rl.question('Entrez l\'heure de fin de la réservation (HH:MM) : ', (heureFin) => {
                 rl.question('Entrez la date de la réservation (JJMMAAAA) : ', (date) => {
                     let analyzer = recupererFichiers();
         let reservations = [];
+        const logger = console;
         try {
             reservations = JSON.parse(fs.readFileSync('reservations.json', 'utf-8')) || [];
         } catch (error) {
@@ -377,47 +379,47 @@ function spec6() {
 
         if (analyzer.errorCount === 0) {
             // Vérifier la disponibilité de la salle
-            let salleExist = analyzer.listeCreneaux.some(c => c.salle.match(args.salle));
-            
+            let salleExist = analyzer.listeCreneaux.some(c => c.salle.match(salle));
+
             if (salleExist) {
                 let salleOccupee = reservations.some(r =>
-                    r.salle === args.salle &&
-                    r.date === args.date &&
-                    ((r.heureDebut <= args.heureDebut && args.heureDebut < r.heureFin) ||
-                    (r.heureDebut < args.heureFin && args.heureFin <= r.heureFin))
+                    r.salle === salle &&
+                    r.date === date &&
+                    ((r.heureDebut <= heureDebut && heureDebut < r.heureFin) ||
+                    (r.heureDebut < heureFin && heureFin <= r.heureFin))
                 );
 
                 if (!salleOccupee) {
                     // Vérifier si la salle a déjà été réservée
                     let salleDejaReservee = analyzer.reservations.some(r =>
-                        r.salle === args.salle &&
-                        r.date === args.date &&
-                        r.heureDebut === args.heureDebut &&
-                        r.heureFin === args.heureFin
+                        r.salle === salle &&
+                        r.date === date &&
+                        r.heureDebut === heureDebut &&
+                        r.heureFin === heureFin
                     );
 
                     if (!salleDejaReservee) {
                         // Mettre à jour les informations pour refléter la réservation
                         // Ajouter la réservation à la liste des réservations
                         analyzer.reservations.push({
-                            salle: args.salle,
-                            date: args.date,
-                            heureDebut: args.heureDebut,
-                            heureFin: args.heureFin,
+                            salle: salle,
+                            date: date,
+                            heureDebut: heureDebut,
+                            heureFin: heureFin,
                         });
 
                         // Ajouter la réservation au tableau des réservations
                         reservations.push({
-                            salle: args.salle,
-                            date: args.date,
-                            heureDebut: args.heureDebut,
-                            heureFin: args.heureFin,
+                            salle: salle,
+                            date: date,
+                            heureDebut: heureDebut,
+                            heureFin: heureFin,
                         });
 
                         // Enregistrer les réservations dans le fichier JSON
                         fs.writeFileSync('reservations.json', JSON.stringify(reservations, null, 2));
 
-                        logger.info("La salle " + args.salle + " a été réservée avec succès pour le créneau du " + args.date + " de " + args.heureDebut + " à " + args.heureFin);
+                        logger.info("La salle " + salle + " a été réservée avec succès pour le créneau du " + date + " de " + heureDebut + " à " + heureFin);
                     } else {
                         logger.info("La salle est déjà réservée pendant ce créneau. Veuillez choisir un autre créneau.");
                     }
