@@ -111,7 +111,7 @@ function spec3() {
         let analyseurFichier = recupererFichiers();
 
         if (analyseurFichier.errorCount === 0) {
-            if (analyseurFichier.listeCreneaux.some(c => c.salle.match(salle))) {
+            if (analyseurFichier.listeCreneaux.some(c => c.salle === salle)) {
                 var nomSalle = salle;
                 var creneauxOccupes = analyseurFichier.listeCreneaux.filter(c => c.salle.match(nomSalle));
 
@@ -360,6 +360,8 @@ function spec5() {
 function spec6() {
 
     rl.question('Entrez le nom de la salle à réserver : ', (salle) => {
+        // Vérifier l'existence de la salle 
+        let salleExist = analyzer.listeCreneaux.some(c => c.salle.match(salle));
         rl.question('Entrez l\'heure de début de la réservation (HH:MM) : ', (heureDebut) => {
             rl.question('Entrez l\'heure de fin de la réservation (HH:MM) : ', (heureFin) => {
                 rl.question('Entrez la date de la réservation (JJMMAAAA) : ', (date) => {

@@ -1,8 +1,14 @@
 [
   {
-   "salle": "B201",
+    "salle": "B201",
     "date": "01/01/2001",
     "heureDebut": "08:00",
-    "heureFin": "08:30" 
+    "heureFin": "08:30"
+  },
+  {
+    "salle": "",
+    "date": "10102023",
+    "heureDebut": "8:00",
+    "heureFin": "9:00"
   }
 ]
