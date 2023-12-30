@@ -584,18 +584,22 @@ function spec8() {
 
 function recupererFichiers() {
     console.log("Recuperation des données depuis ".blue + dataBasePath.blue);
-    var dirFiles = browseDir.browseFiles(dataBasePath);
-    let listFiles = [];
-    dirFiles.forEach(e => listFiles.push(e.src));
     let analyseurFichier = new Parser();
-    if (listFiles.length !== 0) {
-        for (var i = 0; i < listFiles.length; i++) {
-            let data = fs.readFileSync(listFiles[i], 'utf-8');
-            analyseurFichier.parse(data);
+    try {
+        var dirFiles = browseDir.browseFiles(dataBasePath);
+        let listFiles = [];
+        dirFiles.forEach(e => listFiles.push(e.src));
+        if (listFiles.length !== 0) {
+            for (var i = 0; i < listFiles.length; i++) {
+                let data = fs.readFileSync(listFiles[i], 'utf-8');
+                analyseurFichier.parse(data);
+            }
+        } else {
+            console.log("Le fichier ".red + dataBasePath.red + " ne contient pas de fichiers .cru".red);
+            analyseurFichier.errorCount++;
         }
-    } else {
-        console.log("Le fichier ".red + dataBasePath.red + " ne contient pas de fichiers .cru".red);
-        analyseurFichier.errorCount++;
+    } catch (e){
+        analyseurFichier.errorCount++
     }
     return analyseurFichier;
 }
