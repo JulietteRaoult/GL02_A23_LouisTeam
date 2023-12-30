@@ -304,48 +304,50 @@ function spec5() {
 
                 rl.question("Entrez vos cours séparés par des espaces: ", function(answer) {
                     let cours = answer.split(' ');
+                    if(cours.length>=1 && cours[0] !== ''){
+                        lesCreneaux = lesCreneaux.filter(c =>
+                            cours.includes(c.nomUe) &&
+                            joursSemaine.indexOf(c.jour) <= joursSemaine.indexOf(jour2) &&
+                            joursSemaine.indexOf(c.jour) >= joursSemaine.indexOf(jour1)
+                        );
 
-                    lesCreneaux = lesCreneaux.filter(c =>
-                        cours.includes(c.nomUe) &&
-                        joursSemaine.indexOf(c.jour) <= joursSemaine.indexOf(jour2) &&
-                        joursSemaine.indexOf(c.jour) >= joursSemaine.indexOf(jour1)
-                    );
+                        rl.close();
 
-                    rl.close();
+                        let rfcText = "BEGIN:VCALENDAR\nVersion: 2.0\nPRODID:-//Universite centrale de la republique de Sealand (SRU)//FR\n";
 
-                    let rfcText = "BEGIN:VCALENDAR\nVersion: 2.0\nPRODID:-//Universite centrale de la republique de Sealand (SRU)//FR\n";
-                    
-                    lesCreneaux.forEach(element => {
-                        let today = new Date();
-                        let year = today.getFullYear();
-                        let month = String(today.getMonth() + 1).padStart(2, '0');
-                        let day = String(today.getDate()).padStart(2, '0');
+                        lesCreneaux.forEach(element => {
+                            let today = new Date();
+                            let year = today.getFullYear();
+                            let month = String(today.getMonth() + 1).padStart(2, '0');
+                            let day = String(today.getDate()).padStart(2, '0');
 
-                        let startTime = year + month + day + 'T' + element.heureDebut.replace(':', '') + "00";
-                        let endTime = year + month + day + 'T' + element.heureFin.replace(':', '') + "00";
+                            let startTime = year + month + day + 'T' + element.heureDebut.replace(':', '') + "00";
+                            let endTime = year + month + day + 'T' + element.heureFin.replace(':', '') + "00";
 
-                        rfcText += "BEGIN:VEVENT\nUID:000000\nDTSTAMP:" +
-                            today.toISOString() +
-                            "\nORGANIZER:Mailto:info.utt@utt.fr\nDTSTART:" +
-                            startTime +
-                            "\nDTEND:" +
-                            endTime +
-                            "\nSUMMARY:Nom de l'UV:" +
-                            element.nomUe + ' | ' +
-                            element.type + ',' +
-                            element.capacitaire +
-                            ',' + element.index +
-                            "\nLOCATION:" +
-                            element.salle +
-                            "\nEND:VEVENT\n";
-                    });
+                            rfcText += "BEGIN:VEVENT\nUID:000000\nDTSTAMP:" +
+                                today.toISOString() +
+                                "\nORGANIZER:Mailto:info.utt@utt.fr\nDTSTART:" +
+                                startTime +
+                                "\nDTEND:" +
+                                endTime +
+                                "\nSUMMARY:Nom de l'UV:" +
+                                element.nomUe + ' | ' +
+                                element.type + ',' +
+                                element.capacitaire +
+                                ',' + element.index +
+                                "\nLOCATION:" +
+                                element.salle +
+                                "\nEND:VEVENT\n";
+                        });
 
-                    rfcText += "END:VCALENDAR\n";
+                        rfcText += "END:VCALENDAR\n";
 
-                    let filename = jour1 + '_' + jour2 + '_planning';
-                    fs.writeFileSync('./' + filename + '.ics', rfcText);
-                    console.log('Le fichier resultat est généré : ./' + filename + '.ics');
-                    
+                        let filename = jour1 + '_' + jour2 + '_planning';
+                        fs.writeFileSync('./' + filename + '.ics', rfcText);
+                        console.log('Le fichier resultat est généré : ./' + filename + '.ics');
+                    } else {
+                        console.log("Aucun cours entre les deux dates, le fichier ne sera pas crée.")
+                    }
                     showMainMenu(); // Réafficher le menu
                 });
             } else {
