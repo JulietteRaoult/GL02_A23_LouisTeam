@@ -360,14 +360,14 @@ function spec5() {
 
 // Spec6, Réserver une salle
 function spec6() {
-
+    let analyzer = recupererFichiers();
     rl.question('Entrez le nom de la salle à réserver : ', (salle) => {
         // Vérifier l'existence de la salle 
         let salleExist = analyzer.listeCreneaux.some(c => c.salle.match(salle));
         rl.question('Entrez l\'heure de début de la réservation (HH:MM) : ', (heureDebut) => {
             rl.question('Entrez l\'heure de fin de la réservation (HH:MM) : ', (heureFin) => {
                 rl.question('Entrez la date de la réservation (JJMMAAAA) : ', (date) => {
-                    let analyzer = recupererFichiers();
+
         let reservations = [];
         const logger = console;
         try {
